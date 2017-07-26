@@ -229,8 +229,6 @@ public class ArticleDetailFragment extends Fragment implements
 
             Picasso.with(getActivity())
                     .load(mCursor.getString(ArticleLoader.Query.PHOTO_URL))
-                    .resize(500, 500)
-                    .centerCrop()
                     .into(mPhotoView);
         } else {
             mRootView.setVisibility(View.GONE);

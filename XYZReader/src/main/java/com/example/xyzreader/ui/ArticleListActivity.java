@@ -21,14 +21,12 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 import com.example.xyzreader.data.UpdaterService;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -243,11 +241,11 @@ public class ArticleListActivity extends AppCompatActivity implements
                         + "<br/>" + " by "
                         + mCursor.getString(ArticleLoader.Query.AUTHOR)));
             }
-            Picasso.with(getBaseContext())
-                    .load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
-                    .resize(300, 300)
-                    .centerCrop()
-                    .into(holder.thumbnailView);
+
+            holder.thumbnailView.setImageUrl(
+                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
+                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
+            holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
         }
 
         @Override
@@ -258,7 +256,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.thumbnail) ImageView thumbnailView;
+        @BindView(R.id.thumbnail) DynamicHeightNetworkImageView thumbnailView;
         @BindView(R.id.article_title) TextView titleView;
         @BindView(R.id.article_subtitle) TextView subtitleView;
 
